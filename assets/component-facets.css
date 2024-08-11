@@ -998,6 +998,7 @@ input.mobile-facets__checkbox {
   background-color: transparent;
   border-radius: 0;
   box-shadow: none;
+  height: auto;
   filter: none;
   margin-left: 0.5rem;
   margin-right: 0.5rem;
