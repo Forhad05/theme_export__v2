@@ -1,0 +1,19 @@
+
+/* @font-face {
+  font-family:"Jost";
+  src: url(//www.retyche.com/cdn/shop/t/55/assets/Jost-VariableFont_wght.eot?v=134906817160454931581718408795);
+  src: url(//www.retyche.com/cdn/shop/t/55/assets/Jost-VariableFont_wght.eot?%23iefix&v=134906817160454931581718408795)format("embedded-opentype"),
+  url(//www.retyche.com/cdn/shop/t/55/assets/Jost-VariableFont_wght.woff?v=134192193168359615141718408795)format("woff"),
+  url(//www.retyche.com/cdn/shop/t/55/assets/Jost-VariableFont_wght.woff2?v=181083756232390399371718408795)format("woff2"),
+  url(//www.retyche.com/cdn/shop/t/55/assets/Jost-VariableFont_wght.ttf?v=4722811645416779411718408795)format("truetype");
+  font-style:normal;
+}
+ */
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@font-face {
+    font-family: 'slick';
+    font-weight: normal;
+    font-style: normal;      
+    src: url('//www.retyche.com/cdn/shop/t/55/assets/slick.eot?v=37520837207258007691718408795');
+    src: url('//www.retyche.com/cdn/shop/t/55/assets/slick.eot?v=37520837207258007691718408795&#iefix') format('embedded-opentype'), url('//www.retyche.com/cdn/shop/t/55/assets/slick.woff?v=126332276146415195021718408795') format('woff'), url('//www.retyche.com/cdn/shop/t/55/assets/slick.ttf?v=53458690449335155441718408795') format('truetype'), url('//www.retyche.com/cdn/shop/t/55/assets/slick.svg?v=30152553386467292361718408795#slick') format('svg');
+}

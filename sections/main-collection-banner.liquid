@@ -1,0 +1,194 @@
+{% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
+{{ 'component-collection-hero.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (max-width: 749px) {
+    .collection-hero--with-image .collection-hero__inner {
+      padding-bottom: calc({{ settings.media_shadow_vertical_offset | at_least: 0 }}px + 2rem);
+    }
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="section-{{ section.id }}-padding collection-hero{% if section.settings.show_collection_image and collection.image %} collection-hero--with-image{% endif %} color-{{ section.settings.color_scheme }} gradient">
+  <div class="collection-hero__inner page-width {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+    <div class="collection-hero__text-wrapper">
+      <h1 style="text-transform:uppercase;" class="collection-hero__title {{ section.settings.heading_size }} {{ section.settings.heading_alignment }}">
+        <span class="visually-hidden">{{ 'sections.collection_template.title' | t }}: </span>
+        {{- collection.title | escape -}}
+      </h1>
+
+      {%- if section.settings.show_collection_description -%}
+        <div class="{{ section.settings.description_size }} {{ section.settings.description_style }} {{ section.settings.description_alignment }} rte">{{ collection.description }}</div>
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.show_collection_image and collection.image -%}
+      <div class="collection-hero__image-container media gradient">
+        <img
+          srcset="
+            {%- if collection.image.width >= 165 -%}{{ collection.image | image_url: width: 165 }} 165w,{%- endif -%}
+            {%- if collection.image.width >= 360 -%}{{ collection.image | image_url: width: 360 }} 360w,{%- endif -%}
+            {%- if collection.image.width >= 535 -%}{{ collection.image | image_url: width: 535 }} 535w,{%- endif -%}
+            {%- if collection.image.width >= 750 -%}{{ collection.image | image_url: width: 750 }} 750w,{%- endif -%}
+            {%- if collection.image.width >= 1070 -%}{{ collection.image | image_url: width: 1070 }} 1070w,{%- endif -%}
+            {%- if collection.image.width >= 1500 -%}{{ collection.image | image_url: width: 1500 }} 1500w,{%- endif -%}
+            {{ collection.image | image_url }} {{ collection.image.width }}w
+          "
+          src="{{ collection.image | image_url: width: 750 }}"
+          sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 | divided_by: 2 }}px, (min-width: 750px) calc(50vw - 130px), calc(50vw - 55px)"
+          alt=""
+          width="{{ collection.image.width }}"
+          height="{{ collection.image.height }}"
+        >
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.main-collection-banner.name",
+  "class": "section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:sections.main-collection-banner.settings.paragraph.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_description",
+      "default": true,
+      "label": "Show admin collection description"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_image",
+      "default": false,
+      "label": "t:sections.main-collection-banner.settings.show_collection_image.label",
+      "info": "t:sections.main-collection-banner.settings.show_collection_image.info"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h4",
+          "label": "t:sections.all.heading_size.options__x.label"
+        },
+        {
+          "value": "h3",
+          "label": "t:sections.all.heading_size.options__0.label"
+        },
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__1.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h0",
+          "label": "t:sections.all.heading_size.options__3.label"
+        }
+      ],
+      "default": "h1",
+      "label": "Title Size"
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.image-banner.settings.desktop_content_alignment.options__1.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.image-banner.settings.desktop_content_alignment.options__2.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.image-banner.settings.desktop_content_alignment.options__3.label"
+        }
+      ],
+      "default": "left",
+      "label": "Heading Alignment"
+    },
+    {
+      "type": "select",
+      "id": "description_style",
+      "label": "Description style",
+      "options": [
+        { "label": "Body", "value": "body" },
+        { "label": "Subtitle", "value": "subtitle" },
+        { "label": "Uppercase", "value": "uppercase" }
+      ],
+      "default": "body"
+    },
+    {
+      "type": "select",
+      "id": "description_alignment",
+      "label": "Description alignment",
+      "options": [
+        { "label": "Left", "value": "left" },
+        { "label": "Center", "value": "center" },
+        { "label": "Right", "value": "right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "description_size",
+      "label": "Description size",
+      "options": [
+        { "label": "Extra-Small", "value": "subtitle--extra-small" },
+        { "label": "Small", "value": "subtitle--small" },
+        { "label": "Medium", "value": "subtitle--medium" },
+        { "label": "Large", "value": "subtitle" }
+      ],
+      "default": "subtitle--medium"
+    },    
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "background-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ]
+}
+{% endschema %}

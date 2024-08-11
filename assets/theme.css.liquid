@@ -1,0 +1,19 @@
+
+/* @font-face {
+  font-family:"Jost";
+  src: url({{'Jost-VariableFont_wght.eot' | asset_url }});
+  src: url({{'Jost-VariableFont_wght.eot?#iefix' | asset_url;}})format("embedded-opentype"),
+  url({{'Jost-VariableFont_wght.woff' | asset_url;}})format("woff"),
+  url({{'Jost-VariableFont_wght.woff2' | asset_url;}})format("woff2"),
+  url({{'Jost-VariableFont_wght.ttf' | asset_url;}})format("truetype");
+  font-style:normal;
+}
+ */
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@font-face {
+    font-family: 'slick';
+    font-weight: normal;
+    font-style: normal;      
+    src: url('{{ "slick.eot" | asset_url }}');
+    src: url('{{ "slick.eot" | asset_url | append:'&#iefix' }}') format('embedded-opentype'), url('{{ "slick.woff" | asset_url}}') format('woff'), url('{{ "slick.ttf" | asset_url }}') format('truetype'), url('{{ "slick.svg" | asset_url | append:'#slick'}}') format('svg');
+}

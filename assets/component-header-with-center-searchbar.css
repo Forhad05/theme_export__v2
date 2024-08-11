@@ -1,0 +1,74 @@
+.header-center-searchbar {
+    display: none;
+  }
+  .section-header {
+      z-index: 3;
+  }
+  .predictive-search {
+      z-index: 9999;
+  }
+  .field__label, .customer .field label {
+      display: none;
+  }
+  .search__button {
+      left: 0;
+  }
+  input#Search-In-Modal::placeholder , input#Search-In-Template::placeholder {
+    opacity: 1 !important;
+  }
+  .reset__button {
+        right: 0;
+      }
+  .field__label, .customer .field label {
+          left: 4.5rem;
+      }
+      
+  .search__input.field__input , .field__input:focus, .field__input:not(:placeholder-shown), .field__input:-webkit-autofill, .customer .field input:focus, .customer .field input:not(:placeholder-shown), .customer .field input:-webkit-autofill {
+    padding-left: 4.5rem;
+    padding-right: 4.5rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+  .field__input:focus~.field__label, .field__input:not(:placeholder-shown)~.field__label, .field__input:-webkit-autofill~.field__label, .customer .field input:focus~label, .customer .field input:not(:placeholder-shown)~label, .customer .field input:-webkit-autofill~label {
+      padding-left: 0;
+      padding-right: 4.5rem;
+      padding-top: 0;
+      font-size: 1.6rem;
+      padding-bottom: 1rem;
+      top: calc(1rem + var(--inputs-border-width));
+      left: 4.5rem;
+      letter-spacing: .1rem;
+  }
+  
+  
+  @media screen and (min-width: 750px) {
+  
+  }
+  
+  @media screen and (min-width: 990px) {
+    .header--top-left, .header--middle-left:not(.header--has-menu) {
+      grid-template-areas: "heading searchbar icons"
+      "navigation navigation navigation";
+          grid-template-columns: 1fr 4fr auto;
+      }
+      .header-center-searchbar {
+        display: block;
+      }
+      .header__icon--search {
+        display: none;
+      }
+    .header-center-searchbar .header__icon--search {
+        display: block;
+      }
+      .header-center-searchbar .search-modal {
+          opacity: 1;
+      }
+      .header-center-searchbar .modal__content {
+          position: relative;
+          width: 600px;
+      }
+      .header-center-searchbar .search-modal__content {
+          padding: 0;
+      }
+      
+  }

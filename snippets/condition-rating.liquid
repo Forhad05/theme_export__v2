@@ -1,0 +1,358 @@
+{% comment %}
+  Renders condition-rating.
+  Accepts:
+  - block: {Object} passing the block information.
+  - product: {Object} product object.
+
+  Usage:
+  {% render 'condition-rating', block: block, product: product%}
+{% endcomment %}
+
+{% style %}
+  .pdp__condition-slider {
+      padding: 15px 0;
+      margin: 25px 0 5px;
+      border-top: 3px solid #e0e0e0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      list-style: none;
+  }
+  .product-popup-modal {
+      background: rgba(var(--color-foreground),.8);
+  }
+
+  .pdp__section-title {
+      font-size: 1.65rem;
+      color: #000;
+      letter-spacing: 1.5px;
+      line-height: 24px;
+      text-transform: uppercase;
+      padding: 20px 0 17px;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      width: 100%;
+  }
+  .product-popup-modal__content {
+      height: 70%;
+      padding: 0 1.5rem;
+  }
+  .pdp__section--conditions .extra-info-icon {
+      border-radius: 50%;
+      width: 15px;
+      height: 15px;
+      display: inline-block;
+      text-align: center;
+      border: 0;
+      margin: -3px 0 0 6px;
+      background: rgba(0,0,0,0);
+      cursor: pointer;
+  }
+  .pdp__section-title .product-popup-modal__toggle {
+      background-color: none;
+      border: 0;
+      border-radius: none;
+      color: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: sticky;
+      padding: 0;
+      top: 0;
+      width: 17px;
+      height: 17px;
+      background: none;
+      margin-left: 5px;
+  }
+  .pdp__condition-item {
+      font-size: 1.25rem;
+      color: #767676;
+      letter-spacing: 0;
+      line-height: 24px;
+      position: relative;
+  }
+  .pdp__condition-item--selected {
+      color: #000;
+  }
+  .pdp__condition-item--selected:before {
+    background-color: #000;
+    content: "";
+    position: absolute;
+    display: block;
+    width: 3px;
+    height: 21px;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: -26px auto 0;
+  }
+  .pdp-conditions-popup__content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .pdp-conditions-popup__condition-group {
+      width: 100%;
+      margin-bottom: 15px;
+  }
+  .metalab.over-bootstrap .pdp-conditions-popup .modal-body {
+    padding: 21px 21px 0;
+    max-height: 75vh;
+    overflow-x: auto;
+  }
+  .product-popup-modal__content-info {
+    padding-right: 0;
+  }
+  .product-popup-modal__content-info h1 {
+      font-size: 2.2rem;
+      color: #000;
+      letter-spacing: 0;
+      text-transform: capitalize;
+      margin-bottom: 10px;
+      text-align: center;
+  }
+  .pdp-conditions-popup__condition-group h2 {
+      font-size: 1.8rem;
+      color: #000;
+      letter-spacing: 0;
+      line-height: 24px;
+      margin-bottom: 10px;
+      margin-top: 5px;
+  }
+  .pdp-conditions-popup__condition-group p {
+      margin-bottom: 0;
+      margin-top: 10px;
+      font-size: 1.2rem;
+      color: rgba(var(--color-foreground), 0.75);
+  }
+
+  .pdp-conditions-popup__subtext {
+      color: #767676;
+      letter-spacing: 0;
+      line-height: 24px;
+      display: inline-block;
+      width: 100%;
+      text-align: left;
+      padding: 0;
+      border-top: 1px solid #e0e0e0;
+      margin-top: 10px;
+      font-size: 1.3rem;
+  }
+
+  .product-popup-modal__content {
+      margin-top: 7rem;
+  }
+
+  /* Small desktop */
+   @media (min-width: 768px) {
+     .pdp__condition-slider {
+        padding: 15px 0;
+        margin: 25px 0 5px;
+        border-top: 3px solid #e0e0e0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 57px;
+    }
+      .pdp-conditions-popup__condition-group {
+        width: 47%;
+        text-align: left;
+        margin-bottom: 35px;
+      }
+  .product-popup-modal__content-info h1 {
+      font-size: 3.2rem;
+      letter-spacing: 0;
+      line-height: 43px;
+      padding: 0 50px;
+      text-transform: uppercase;
+      margin-bottom: 30px;
+  }
+    .pdp-conditions-popup__condition-group h2 {
+        font-size: 2rem;
+    }
+   .product-popup-modal__content {
+        margin-top: 7rem;
+        min-height: calc(100% - 3.5rem);
+    }
+   .pdp-conditions-popup__content {
+      padding: 50px 100px 0;
+      padding-top: 0;
+    }
+  }
+
+   /* Desktop */
+   @media (min-width: 990px) {
+     .product-popup-modal__content-info {
+          padding: 50px 80px 0;
+      }
+     .pdp-conditions-popup__content {
+          padding: 0;
+      }
+     .product-popup-modal__content-info h1 {
+          font-size: 3.2rem;
+          padding: 0;
+      }
+      .product-popup-modal__content-info {
+          padding-top: 0;
+      }
+     .product-popup-modal__content {
+          width: 800px;
+      }
+     .product-popup-modal__content {
+        margin-top: 3rem;
+        min-height: calc(100% - 7rem);
+      }
+     .pdp-conditions-popup__condition-group p {
+        font-size: 1.4rem;
+      }
+     .pdp-conditions-popup__subtext {
+          padding: 10px 0;
+      }
+      .pdp-conditions-popup__subtext p {
+          font-size: 1.4rem;
+      }
+   }
+{% endstyle %}
+
+<!-- POPUP Dialog -->
+<modal-dialog id="PopupModal-{{ block.id }}" class="product-popup-modal" {{ block.shopify_attributes }}>
+  <div
+    role="dialog"
+    aria-label="{{ block.settings.text }}"
+    aria-modal="true"
+    class="product-popup-modal__content"
+    tabindex="-1"
+  >
+    <button
+      id="ModalClose-{{ block.id }}"
+      type="button"
+      class="product-popup-modal__toggle"
+      aria-label="{{ 'accessibility.close' | t }}"
+    >
+      {% render 'icon-close' %}
+    </button>
+    <div class="product-popup-modal__content-info">
+      <!-- Popup title -->
+      <h1>{{ block.settings.title_for_popup }}</h1>
+      <!-- Popup modal content -->
+      <div class="pdp-conditions-popup__content">
+        {% if block.settings.popup_item_heading_and_description_1 != '' %}
+          <div class="pdp-conditions-popup__condition-group">
+            {{ block.settings.popup_item_heading_and_description_1 }}
+          </div>
+        {% endif %}
+
+        {% if block.settings.popup_item_heading_and_description_2 != '' %}
+          <div class="pdp-conditions-popup__condition-group">
+            {{ block.settings.popup_item_heading_and_description_2 }}
+          </div>
+        {% endif %}
+
+        {% if block.settings.popup_item_heading_and_description_3 != '' %}
+          <div class="pdp-conditions-popup__condition-group">
+            {{ block.settings.popup_item_heading_and_description_3 }}
+          </div>
+        {% endif %}
+
+        {% if block.settings.popup_item_heading_and_description_4 != '' %}
+          <div class="pdp-conditions-popup__condition-group">
+            {{ block.settings.popup_item_heading_and_description_4 }}
+          </div>
+        {% endif %}
+
+        {% if block.settings.popup_item_heading_and_description_5 != '' %}
+          <div class="pdp-conditions-popup__condition-group">
+            {{ block.settings.popup_item_heading_and_description_5 }}
+          </div>
+        {% endif %}
+
+        {% if block.settings.popup_item_heading_and_description_6 != '' %}
+          <div class="pdp-conditions-popup__condition-group">
+            {{ block.settings.popup_item_heading_and_description_6 }}
+          </div>
+        {% endif %}
+      </div>
+      <!-- Popup modal content end -->
+
+      <!-- Popup footer text -->
+      <div class="pdp-conditions-popup__subtext">
+        {{ block.settings.popup_footer_text }}
+      </div>
+    </div>
+  </div>
+</modal-dialog>
+<!-- POPUP Dialog end -->
+
+<!--
+  * Get the conditional rating metafield from product object
+  * convert metafield value into lowercase, and replace any space between word with _ underscore
+-->
+{% assign metafield_conditiona_rating = product.metafields.info.condition_rating.value | downcase %}
+{% assign metafield_value = metafield_conditiona_rating | replace: ' ', '_' %}
+{%- if metafield_conditiona_rating != blank -%}
+<div class="pdp__section pdp__section--conditions  pdp__section-no-min-height" id="pdp__section--conditions">
+  <!-- Rating title -->
+  <h2 class="pdp__section-title">
+    Condition
+    <!-- Popup opener -->
+    <modal-opener
+      class="product-popup-modal__opener no-js-hidden quick-add-hidden"
+      data-modal="#PopupModal-{{ block.id }}"
+      {{ block.shopify_attributes }}
+    >
+      <button
+        id="ModalClose-{{ block.id }}"
+        type="button"
+        class="product-popup-modal__toggle"
+        aria-label="{{ 'accessibility.close' | t }}"
+        class="product-popup-modal__button product-popup-modal__toggle extra-info-icon"
+      >
+        <img
+          src="https://cdn.shopify.com/s/files/1/0570/1812/2395/files/question-mark.jpg?v=1702098982"
+          class="icon-question"
+          width="15"
+          height="15"
+        >
+      </button>
+    </modal-opener>
+  </h2>
+
+{% if shop.locale contains 'fr' %}
+  {% assign metafield_conditiona_rating = product.metafields.info.condition_rating.value | downcase %}
+  {% assign metafield_value = metafield_conditiona_rating | replace: ' ', '_' %}
+  <!-- Rating slider -->
+  <ul class="pdp__condition-slider">
+    <li class="pdp__condition-item {% if metafield_value == "équitable" %}pdp__condition-item--selected{% endif %}">Passable</li>
+    <li class="pdp__condition-item {% if metafield_value == "bien" %}pdp__condition-item--selected{% endif %}">Bonne</li>
+    <li class="pdp__condition-item {% if metafield_value == "très_bien" %}pdp__condition-item--selected{% endif %}">
+      Très bonne
+    </li>
+    <li class="pdp__condition-item {% if metafield_value == "excellent" %}pdp__condition-item--selected{% endif %}">
+      Excellente
+    </li>
+    <li class="pdp__condition-item {% if metafield_value == "tout_neuf" %}pdp__condition-item--selected{% endif %}">
+      Neuve
+    </li>
+  </ul>
+  {% else %}
+  {% assign metafield_conditiona_rating = product.metafields.info.condition_rating.value | downcase %}
+{% assign metafield_value = metafield_conditiona_rating | replace: ' ', '_' %}
+  <!-- Rating slider -->
+  <ul class="pdp__condition-slider">
+    <li class="pdp__condition-item {% if metafield_value == "fair" %}pdp__condition-item--selected{% endif %}">Fair</li>
+    <li class="pdp__condition-item {% if metafield_value == "good" %}pdp__condition-item--selected{% endif %}">Good</li>
+    <li class="pdp__condition-item {% if metafield_value == "very_good" %}pdp__condition-item--selected{% endif %}">
+      Very Good
+    </li>
+    <li class="pdp__condition-item {% if metafield_value == "excellent" %}pdp__condition-item--selected{% endif %}">
+      Excellent
+    </li>
+    <li class="pdp__condition-item {% if metafield_value == "brand_new" %}pdp__condition-item--selected{% endif %}">
+      Brand New
+    </li>
+  </ul>
+    {% endif %}
+</div>
+{%- endif -%}

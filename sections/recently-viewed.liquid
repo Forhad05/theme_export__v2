@@ -1,0 +1,342 @@
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+
+{{ 'component-slider.css' | asset_url | stylesheet_tag }}
+{{ 'template-collection.css' | asset_url | stylesheet_tag }}
+
+{% if section.settings.image_shape == 'blob' %}
+  {{ 'mask-blobs.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
+
+{%- if section.settings.enable_quick_add -%}
+  {{ 'quick-add.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+<style>
+@media only screen and (min-width: 750px) { 
+.js-recentPdpBlock{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  column-gap: var(--grid-desktop-horizontal-spacing);
+  padding: 20px;
+}
+}
+
+@media only screen and (max-width: 576px)
+{
+    /* Code by https://websensepro.com */
+  .js-recentPdpBlock{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: var(--grid-desktop-horizontal-spacing);
+}
+  .c-product img{
+height: 230px !important;
+  }
+}
+
+.recently-title h2 {
+    font-size: 24px;
+    border-top: 1px solid #d2d2d2;
+    padding-top: 50px;
+}
+/* .js-recentPdpBlock {
+    display: flex;
+    flex-wrap: wrap !important;
+} */
+
+.c-product{
+  cursor: pointer;
+}
+
+.c-product img {
+    height: 280px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.c-product p.c-productPrice {
+  color: #000;
+}
+
+.c-product h3.c-product__title {
+    padding-bottom: 10px;
+}
+
+.c-product h3.c-product__title a {
+    color: black;
+  text-decoration: none;
+}
+</style>
+
+{%- liquid
+  assign products_to_display = section.settings.collection.all_products_count
+
+  if section.settings.collection.all_products_count > section.settings.products_to_show
+    assign products_to_display = section.settings.products_to_show
+    assign more_in_collection = true
+  endif
+
+  assign columns_mobile_int = section.settings.columns_mobile | plus: 0
+  assign show_mobile_slider = false
+  if section.settings.swipe_on_mobile and products_to_display > columns_mobile_int
+    assign show_mobile_slider = true
+  endif
+
+  assign show_desktop_slider = false
+  if section.settings.enable_desktop_slider and products_to_display > section.settings.columns_desktop
+    assign show_desktop_slider = true
+  endif
+-%}
+
+<script>
+// First Block
+function setRecentlyViewedPdp() {
+    const pdpData = {
+        productTitle : "{{ product.title }}",
+        productImg : "{{ product.featured_image | img_url: '' }}",
+        productPrice : "{{ product.price | money | remove_first: '' }}",
+        productUrl : "{{ product.url }}"
+    };
+
+    // Init Empty Array to push data
+    const productArr = [];
+    // Create a couple of variables 
+    let jsonResp,
+        jsonRespArr, 
+        jsonRespArrStr; 
+    // Set the number how many products you want to capture 
+    const numberOfProduct = {{ section.settings.products_to_show }};
+    // Now push the pdpData into Array so that we can use it 
+    productArr.push(pdpData);
+    // Get the product title from pdpData 
+    const currPdpTitle = pdpData.productTitle;
+    // Now Convert current page data into Strings which we already pushed in Array 
+    const pdpDataString = JSON.stringify(productArr);
+    // Set the variable for localStorage 
+    const localData = localStorage.getItem('recently_viewed');
+  
+    // Second Block
+    // first we need to check data if data is not there then store right // away 
+    if (localData == null) {
+        localStorage.setItem('recently_viewed', pdpDataString);
+        
+    }
+    // If data is there then we need to check couple of other conditions 
+    else if ( localData != null ) {
+        
+        // Create Variable for oldData or Previous page 
+        const oldPdpData = localStorage.getItem('recently_viewed');
+        // Count the amount of data stored in strings so that we can remove // old products from the stack 
+        const countPdpData = (oldPdpData.match(/productTitle/g) || []).length;
+        // we also need to check if user is not visiting page again 
+        const reVisitPdp =  oldPdpData.includes(currPdpTitle);
+        // Get old data, merged it with new data and store merged data
+        if (countPdpData < numberOfProduct && reVisitPdp == false) {
+            jsonResp = JSON.parse(oldPdpData);
+            jsonRespArr = jsonResp.concat(productArr);
+            jsonRespArrStr = JSON.stringify(jsonRespArr);
+            localStorage.setItem('recently_viewed', jsonRespArrStr);
+        }
+        // If User visited more the 4 pages delete first page data 
+        else if (countPdpData >= numberOfProduct && reVisitPdp == false) {
+            jsonResp = JSON.parse(oldPdpData);
+            jsonResp.shift();
+            jsonRespArr = jsonResp.concat(productArr);
+            jsonRespArr =  JSON.stringify(jsonRespArr);
+            localStorage.setItem('recently_viewed', jsonRespArr);
+        }
+    }
+}
+
+// Now we write all our function and it's time to execute it 
+setRecentlyViewedPdp();
+// Set Variable for Local Storage Data 
+const localViewed = localStorage.recently_viewed;
+// console.log to verify the data 
+</script>
+
+<div class="color-{{ section.settings.color_scheme }} isolate gradient">
+  <div class="collection section-{{ section.id }}-padding{% if section.settings.full_width %} collection--full-width{% endif %}">
+    <div class="collection__title title-wrapper title-wrapper--no-top-margin page-width{% if show_mobile_slider %} title-wrapper--self-padded-tablet-down{% endif %}{% if show_desktop_slider %} collection__title--desktop-slider{% endif %}">
+      {%- if section.settings.title != blank -%}
+        <h2 class="title inline-richtext {{ section.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+          {{ section.settings.title }}
+        </h2>
+      {%- endif -%}
+      {%- if section.settings.description != blank
+        or section.settings.show_description
+        and section.settings.collection.description != empty
+      -%}
+        <div class="collection__description {{ section.settings.description_style }} rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+          {%- if section.settings.show_description -%}
+            {{ section.settings.collection.description }}
+          {%- else -%}
+            {{ section.settings.description -}}
+          {%- endif %}
+        </div>
+      {%- endif -%}
+    </div>
+
+    
+    <div class="js-recentPdpBlock">
+    </div>
+
+    {% if section.settings.image_shape == 'arch' %}
+      {% render 'mask-arch' %}
+    {%- endif -%}
+  </div>
+</div>
+
+
+     
+<script>
+// Third Block
+function getRecentPdp (){
+
+    // First let's convert localStorage data into object again
+    const pdpData = JSON.parse(localStorage.getItem('recently_viewed'));
+    console.log(pdpData)
+    // Create a empty Array
+    const recentViewHtml = []
+    // Loop through all the data and inject into HTML using ES6
+    pdpData.forEach(function(item){ 
+        recentViewHtml.push(`
+            <section id="Recent">
+            <div class="c-product">
+                <div class="c-product__img">
+                <a href="${item.productUrl}"><img src='${item.productImg}'/></a>
+                </div>
+                <h3 class="c-product__title">
+                    <a class="c-product__url" href="${item.productUrl}">
+                    ${item.productTitle}
+                    </a>
+                </h3>
+                <p class="c-productPrice">${item.productPrice}</p>
+            </div>
+            
+            
+            </section>
+        `)
+    })
+    // Now consolidate the data 
+    const recentBlock = `${recentViewHtml.join('')}`
+    // console.log() to check data is correct 
+    console.log(recentBlock);
+    // Inject into PDP page
+    const contentBlock = document.querySelectorAll('.js-recentPdpBlock');
+    // Push the data
+    contentBlock.forEach(element =>{
+        element.innerHTML = recentBlock;
+    })
+   
+}
+// Execute this function on DOM content load 
+
+getRecentPdp();
+</script>
+
+
+{% schema %}
+{
+  "name": "Recently Viewed",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "default": "Featured collection",
+      "label": "t:sections.featured-collection.settings.title.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__1.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h0",
+          "label": "t:sections.all.heading_size.options__3.label"
+        }
+      ],
+      "default": "h1",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "t:sections.featured-collection.settings.description.label"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 4,
+      "label": "t:sections.featured-collection.settings.products_to_show.label"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "info": "t:sections.all.colors.has_cards_info",
+      "default": "background-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+  "presets": [
+    {
+      "name": "Recently Viewed"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,50 @@
+{% comment %}
+  Renders product-certification.
+  Accepts:
+  - block: {Object} passing the block information.
+  
+  Usage:
+  {% render 'product-certification', block: block%}
+{% endcomment %}
+
+{% style %}
+.product__certification--component-link {
+  text-decoration: none;
+}
+.product__certification--component-wrapper {
+  display:flex;
+  padding: 20px 15px;
+  align-items: center;
+}
+.product__certification--component-icon {
+  width: 36px;
+  height: 36px;
+  margin-right: 15px;
+}
+.product__certification--component-icon img {
+  width: 100%;
+}
+.product__certification--component-details h5 {
+  margin: 0;
+}
+.product__certification--component-details p {
+    text-decoration: none;
+    margin-top: 5px;
+    margin-bottom: 0;
+}
+.product__certification--component-link:hover .product__certification--component-details p {
+  text-decoration: underline;
+}
+{% endstyle %}
+
+<a class="pdp__block pdp__block--certification product__certification--component-link" href="{{ block.settings.certification_link }}" rel="noopener noreferrer">
+<div class="product__certification--component-wrapper color-{{ block.settings.color_scheme }}">
+  <div class="product__certification--component-icon">
+    <img src="{{ block.settings.certification_icon | image_url  }}" width="35" height="36" />
+  </div>
+  <div class="product__certification--component-details">
+    <h5>{{ block.settings.heading }}</h5>
+    <p class="caption">{{ block.settings.certification_link_text }}</p>
+  </div>
+</div>
+</a>
