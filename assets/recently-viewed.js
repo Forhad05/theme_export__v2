@@ -87,6 +87,8 @@ if (!customElements.get('recently-viewed')) {
       }
     
       async getviewedProducts(data) {
+        this.closest('.shopify-section').style.display = data.length >= 2 ? 'block' : 'none';
+        if(!data.length >= 2) return;
         try {
           const handles = [];
           data.forEach((item) => {
