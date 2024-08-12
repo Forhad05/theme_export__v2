@@ -6,9 +6,6 @@
         "slide_FXfiQ6": {
           "type": "slide",
           "settings": {
-            "desktop_image": "shopify:\/\/shop_images\/Retyche-Shop-Newest-Arrivals-Online.jpg",
-            "tablet_image": "shopify:\/\/shop_images\/Retyche-Shop-Newest-Arrivals_Online.jpg",
-            "mobile_image": "shopify:\/\/shop_images\/Retyche-Shop-Newest_Arrivals_Online.jpg",
             "heading": "Accessorize for the vacation <em>you deserve<\/em>",
             "heading_size": "h1",
             "subheading": "",
@@ -30,9 +27,6 @@
         "slide_gPTeLy": {
           "type": "slide",
           "settings": {
-            "desktop_image": "shopify:\/\/shop_images\/Retyche-Shop-Designer-Bags-Online.jpg",
-            "tablet_image": "shopify:\/\/shop_images\/Retyche-Shop-Designer-Bags_Online.jpg",
-            "mobile_image": "shopify:\/\/shop_images\/Retyche-Shop-Designer_Bags_Online.jpg",
             "heading": "Sun's out,<em> style up!<\/em>",
             "heading_size": "h1",
             "subheading": "",
@@ -55,9 +49,6 @@
           "type": "slide",
           "disabled": true,
           "settings": {
-            "desktop_image": "shopify:\/\/shop_images\/Retyche-Visit-Carrefour-Laval-Popup.jpg",
-            "tablet_image": "shopify:\/\/shop_images\/Retyche-Visit-Carrefour-Laval_Popup.jpg",
-            "mobile_image": "shopify:\/\/shop_images\/Retyche-Visit-Carrefour_Laval_Popup.jpg",
             "heading": "New Carrefour Laval Pop-Up",
             "heading_size": "h1",
             "subheading": "<em>Until August 31st<\/em>",
@@ -121,7 +112,7 @@
         "show_secondary_image": true,
         "show_vendor": true,
         "show_rating": false,
-        "enable_quick_add": false,
+        "enable_quick_add": true,
         "columns_mobile": "1",
         "swipe_on_mobile": true,
         "padding_top": 0,
@@ -239,9 +230,6 @@
         "3f448e01-8dda-43e5-b7d0-1cc46b331abc"
       ],
       "settings": {
-        "image": "shopify:\/\/shop_images\/Retyche-Sell-With-Us.jpg",
-        "image_tablet": "shopify:\/\/shop_images\/Retyche-Sell-With_Us.jpg",
-        "image_mobile": "shopify:\/\/shop_images\/Retyche-Sell_With_Us.jpg",
         "image_overlay_opacity": 0,
         "banner_link": "",
         "image_height": "medium",
@@ -306,9 +294,6 @@
         "buttons_LAQ7mF"
       ],
       "settings": {
-        "image": "shopify:\/\/shop_images\/authenticity_image_home_page.jpg",
-        "image_tablet": "shopify:\/\/shop_images\/authenticity_home_banner_tablet.jpg",
-        "image_mobile": "shopify:\/\/shop_images\/authenticity_home_banner_mobile.jpg",
         "image_overlay_opacity": 0,
         "banner_link": "",
         "image_height": "medium",
@@ -367,7 +352,6 @@
         "a873e07c-9e7d-40fd-8ebe-230fe5b1a525"
       ],
       "settings": {
-        "image": "shopify:\/\/shop_images\/Visit-Retyche.jpg",
         "image_overlay_opacity": 0,
         "banner_link": "",
         "image_height": "medium",
@@ -392,7 +376,6 @@
         "column_Mwhtec": {
           "type": "column",
           "settings": {
-            "image": "shopify:\/\/shop_images\/certified_ribbon.svg",
             "title": "AUTHENTICITY GUARANTEED",
             "heading_size": "h5",
             "text": "",
@@ -404,7 +387,6 @@
         "column_UEHxMC": {
           "type": "column",
           "settings": {
-            "image": "shopify:\/\/shop_images\/rating-star-give.svg",
             "title": "CONDITION RATINGS",
             "heading_size": "h5",
             "text": "",
@@ -416,7 +398,6 @@
         "column_3ybH9E": {
           "type": "column",
           "settings": {
-            "image": "shopify:\/\/shop_images\/currency-dollar-circle.svg",
             "title": "PAYMENT PLANS AVAILABLE",
             "heading_size": "h5",
             "text": "",
@@ -428,7 +409,6 @@
         "column_eCKc7L": {
           "type": "column",
           "settings": {
-            "image": "shopify:\/\/shop_images\/shipment-package.svg",
             "title": "RETURNS & EXCHANGES",
             "heading_size": "h5",
             "text": "",

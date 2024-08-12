@@ -116,7 +116,6 @@
           "type": "certified-product",
           "settings": {
             "color_scheme": "background-2",
-            "certification_icon": "shopify:\/\/shop_images\/check-badge.svg",
             "heading": "CERTIFIED BY RETYCHE",
             "certification_link_text": "READ MORE ABOUT OUR AUTHENTICITY HERE.",
             "certification_link": "shopify:\/\/pages\/retyche-authenticity"
@@ -168,7 +167,6 @@
         "template--16935662485726__ba6b00d3-7c38-414e-8784-2a17e9a46433-column-1": {
           "type": "column",
           "settings": {
-            "image": "shopify:\/\/shop_images\/certified-ribbon.svg",
             "title": "AUTHENTICITY GUARANTEED",
             "heading_size": "h4",
             "text": "",
@@ -180,7 +178,6 @@
         "template--16935662485726__ba6b00d3-7c38-414e-8784-2a17e9a46433-column-2": {
           "type": "column",
           "settings": {
-            "image": "shopify:\/\/shop_images\/rating-star-give.svg",
             "title": "CONDITION RATINGS",
             "heading_size": "h4",
             "text": "",
@@ -192,7 +189,6 @@
         "template--16935662485726__ba6b00d3-7c38-414e-8784-2a17e9a46433-column-3": {
           "type": "column",
           "settings": {
-            "image": "shopify:\/\/shop_images\/currency-dollar-circle.svg",
             "title": "PAYMENT PLANS AVAILABLE",
             "heading_size": "h4",
             "text": "",
@@ -204,7 +200,6 @@
         "296def5f-a744-4e6e-90f3-b602454d18b1": {
           "type": "column",
           "settings": {
-            "image": "shopify:\/\/shop_images\/shipment-package.svg",
             "title": "RETURNS & EXCHANGES",
             "heading_size": "h4",
             "text": "",
@@ -233,6 +228,7 @@
         "296def5f-a744-4e6e-90f3-b602454d18b1",
         "d4e8a87e-31dc-4bc3-809e-bb492b905a6f"
       ],
+      "disabled": true,
       "settings": {
         "title": "",
         "heading_size": "h2",
@@ -277,15 +273,16 @@
         "padding_bottom": 72
       }
     },
-    "5f12af67-ba1c-46c8-bc18-2d19a7968999": {
-      "type": "recently-viewed",
-      "disabled": true,
+    "recently_viewed_products_ryYpBE": {
+      "type": "recently-viewed-products",
       "settings": {
         "title": "RECENTLY VIEWED",
         "heading_size": "h2",
-        "description": "",
+        "align_heading": "center",
         "products_to_show": 5,
-        "color_scheme": "background-1",
+        "columns_desktop": 5,
+        "columns_mobile": "2",
+        "color_scheme": "",
         "padding_top": 36,
         "padding_bottom": 36
       }
@@ -300,7 +297,7 @@
         "description": "",
         "show_description": false,
         "description_style": "uppercase",
-        "collection": "chanel",
+        "collection": "automated-collection",
         "namespace_key": "type_key",
         "products_to_show": 25,
         "columns_desktop": 5,
@@ -313,9 +310,9 @@
         "image_ratio": "portrait",
         "image_shape": "default",
         "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "enable_quick_add": false,
+        "show_vendor": true,
+        "show_rating": true,
+        "enable_quick_add": true,
         "columns_mobile": "1",
         "swipe_on_mobile": true,
         "padding_top": 36,
@@ -557,7 +554,7 @@
     "main",
     "ba6b00d3-7c38-414e-8784-2a17e9a46433",
     "related-products",
-    "5f12af67-ba1c-46c8-bc18-2d19a7968999",
+    "recently_viewed_products_ryYpBE",
     "03a37a85-f3c1-4b21-9f39-c035a82270b7",
     "e7d1f9b6-e38c-4894-ba72-143b5960aa95",
     "c3af8de1-ef5d-44a3-8aba-b128dea189af",
