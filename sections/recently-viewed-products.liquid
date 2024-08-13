@@ -30,6 +30,11 @@
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
+  {% if section.settings.full_width %}
+    #shopify-section-{{ section.id }} {
+      --page-width: 100%;
+    }
+  {% endif %}
 {%- endstyle -%}
 
 <recently-viewed
@@ -42,7 +47,7 @@
   data-product-id="{{ product.id }}"
 >
   <div class="color-{{ section.settings.color_scheme }} isolate gradient">
-    <div class="collection section-{{ section.id }}-padding{% if section.settings.full_width %} collection--full-width{% endif %}">
+    <div class="collection section-{{ section.id }}-padding">
       <div class="collection__title title-wrapper title-wrapper--no-top-margin page-width {{ section.settings.heading_alignment }}">
         {%- if section.settings.title != blank -%}
           <h2 class="title inline-richtext {{ section.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
@@ -63,27 +68,29 @@
         {%- endif -%}
       </div>
 
-      <recently-viewed-card class="recently-viewed-card{% unless request.design_mode %} hidden{% endunless %}">
-        <div class="grid grid--{{ section.settings.columns_mobile }}-col grid--{{ section.settings.columns_desktop }}-col-desktop">
-          <div class="grid__item">
-            {% render 'card-product',
-              card_product: product,
-              media_aspect_ratio: section.settings.image_ratio,
-              image_shape: section.settings.image_shape,
-              show_secondary_image: section.settings.show_secondary_image,
-              show_vendor: section.settings.show_vendor,
-              show_rating: section.settings.show_rating,
-              show_quick_add: section.settings.enable_quick_add,
-              section_id: section.id
-            %}
+      <div class="page-width">
+        <recently-viewed-card class="recently-viewed-card{% unless request.design_mode %} hidden{% endunless %}">
+          <div class="grid grid--{{ section.settings.columns_mobile }}-col grid--{{ section.settings.columns_desktop }}-col-desktop">
+            <div class="grid__item">
+              {% render 'card-product',
+                card_product: product,
+                media_aspect_ratio: section.settings.image_ratio,
+                image_shape: section.settings.image_shape,
+                show_secondary_image: section.settings.show_secondary_image,
+                show_vendor: section.settings.show_vendor,
+                show_rating: section.settings.show_rating,
+                show_quick_add: section.settings.enable_quick_add,
+                section_id: section.id
+              %}
+            </div>
+            {% assign additional_grids = section.settings.columns_desktop | minus: 1 %}
+            {% for i in (1..additional_grids) %}
+              <div class="grid__item"><div></div></div>
+            {% endfor %}
           </div>
-          {% assign additional_grids = section.settings.columns_desktop | minus: 1 %}
-          {% for i in (1..additional_grids) %}
-            <div class="grid__item"><div></div></div>
-          {% endfor %}
-        </div>
-      </recently-viewed-card>
-      <div id="productGrid" class="grid grid--{{ section.settings.columns_mobile }}-col grid--{{ section.settings.columns_desktop }}-col-desktop"></div>
+        </recently-viewed-card>
+        <div id="productGrid" class="grid grid--{{ section.settings.columns_mobile }}-col grid--{{ section.settings.columns_desktop }}-col-desktop"></div>
+      </div>
 
       {% if section.settings.image_shape == 'arch' %}
         {% render 'mask-arch' %}
@@ -180,6 +187,16 @@
         }
 
         async getviewedProducts(data) {
+          if(this.dataset.designMode === 'true') {
+            if(data.length >= 2) {
+              this.querySelector('recently-viewed-card').classList.add('hidden');
+            } else {
+              this.querySelector('#productGrid').classList.add('hidden');
+            }
+          } else {
+            this.closest('.shopify-section').style.display = data.length >= 2 ? 'block' : 'none';
+          }
+          if(!data.length >= 2) return;
           try {
             const handles = [];
             data.forEach((item) => {
@@ -227,7 +244,7 @@
     {
       "type": "inline_richtext",
       "id": "title",
-      "default": "Featured collection",
+      "default": "Recently Viewed",
       "label": "t:sections.featured-collection.settings.title.label"
     },
     {
