@@ -188,15 +188,15 @@
 
         async getviewedProducts(data) {
           if(this.dataset.designMode === 'true') {
-            if(data.length >= 2) {
+            if(data.length >= 1) {
               this.querySelector('recently-viewed-card').classList.add('hidden');
             } else {
               this.querySelector('#productGrid').classList.add('hidden');
             }
           } else {
-            this.closest('.shopify-section').style.display = data.length >= 2 ? 'block' : 'none';
+            this.closest('.shopify-section').style.display = data.length >= 1 ? 'block' : 'none';
           }
-          if(!data.length >= 2) return;
+          if(!data.length >= 1) return;
           try {
             const handles = [];
             data.forEach((item) => {
