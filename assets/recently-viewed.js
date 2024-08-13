@@ -88,8 +88,11 @@ if (!customElements.get('recently-viewed')) {
 
       async getviewedProducts(data) {
         if(this.dataset.designMode === 'true') {
-          if(data.length >= 2)
+          if(data.length >= 2) {
             this.querySelector('recently-viewed-card').classList.add('hidden');
+          } else {
+            this.querySelector('#productGrid').classList.add('hidden');
+          }
         } else {
           this.closest('.shopify-section').style.display = data.length >= 2 ? 'block' : 'none';
         }
