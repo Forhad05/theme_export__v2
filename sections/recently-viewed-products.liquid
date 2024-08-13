@@ -15,6 +15,10 @@
 {%- endif -%}
 
 {%- style -%}
+  .recently-viewed,
+  .recently-viewed-card {
+    display: block;
+  }
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
@@ -28,52 +32,196 @@
   }
 {%- endstyle -%}
 
-<div class="color-{{ section.settings.color_scheme }} isolate gradient">
-  <div class="collection section-{{ section.id }}-padding{% if section.settings.full_width %} collection--full-width{% endif %}">
-    <div class="collection__title title-wrapper title-wrapper--no-top-margin page-width {{ section.settings.heading_alignment }}">
-      {%- if section.settings.title != blank -%}
-        <h2 class="title inline-richtext {{ section.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-          {{ section.settings.title }}
-        </h2>
-      {%- endif -%}
-      {%- if section.settings.description != blank
-        or section.settings.show_description
-        and section.settings.collection.description != empty
-      -%}
-        <div class="collection__description {{ section.settings.description_style }} rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-          {%- if section.settings.show_description -%}
-            {{ section.settings.collection.description }}
-          {%- else -%}
-            {{ section.settings.description -}}
-          {%- endif %}
+<recently-viewed
+  aria-expanded="false"
+  class="recently-viewed"
+  data-design-mode="{{ request.design_mode }}"
+  data-animation="{{ settings.animations_reveal_on_scroll }}"
+  data-show-products="{{ section.settings.products_to_show }}"
+  data-product-handle="{{ product.handle }}"
+  data-product-id="{{ product.id }}"
+>
+  <div class="color-{{ section.settings.color_scheme }} isolate gradient">
+    <div class="collection section-{{ section.id }}-padding{% if section.settings.full_width %} collection--full-width{% endif %}">
+      <div class="collection__title title-wrapper title-wrapper--no-top-margin page-width {{ section.settings.heading_alignment }}">
+        {%- if section.settings.title != blank -%}
+          <h2 class="title inline-richtext {{ section.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+            {{ section.settings.title }}
+          </h2>
+        {%- endif -%}
+        {%- if section.settings.description != blank
+          or section.settings.show_description
+          and section.settings.collection.description != empty
+        -%}
+          <div class="collection__description {{ section.settings.description_style }} rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+            {%- if section.settings.show_description -%}
+              {{ section.settings.collection.description }}
+            {%- else -%}
+              {{ section.settings.description -}}
+            {%- endif %}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <recently-viewed-card class="recently-viewed-card{% unless request.design_mode %} hidden{% endunless %}">
+        <div class="grid grid--{{ section.settings.columns_mobile }}-col grid--{{ section.settings.columns_desktop }}-col-desktop">
+          <div class="grid__item">
+            {% render 'card-product',
+              card_product: product,
+              media_aspect_ratio: section.settings.image_ratio,
+              image_shape: section.settings.image_shape,
+              show_secondary_image: section.settings.show_secondary_image,
+              show_vendor: section.settings.show_vendor,
+              show_rating: section.settings.show_rating,
+              show_quick_add: section.settings.enable_quick_add,
+              section_id: section.id
+            %}
+          </div>
+          {% assign additional_grids = section.settings.columns_desktop | minus: 1 %}
+          {% for i in (1..additional_grids) %}
+            <div class="grid__item"><div></div></div>
+          {% endfor %}
         </div>
+      </recently-viewed-card>
+      <div id="productGrid" class="grid grid--{{ section.settings.columns_mobile }}-col grid--{{ section.settings.columns_desktop }}-col-desktop"></div>
+
+      {% if section.settings.image_shape == 'arch' %}
+        {% render 'mask-arch' %}
       {%- endif -%}
     </div>
-
-    {% render 'card-product',
-      card_product: product,
-      media_aspect_ratio: section.settings.image_ratio,
-      image_shape: section.settings.image_shape,
-      show_secondary_image: section.settings.show_secondary_image,
-      show_vendor: section.settings.show_vendor,
-      show_rating: section.settings.show_rating,
-      show_quick_add: section.settings.enable_quick_add,
-      section_id: section.id
-    %}
-
-    {% if section.settings.image_shape == 'arch' %}
-      {% render 'mask-arch' %}
-    {%- endif -%}
   </div>
-</div>
+</recently-viewed>
+<script>
+  if (!customElements.get('recently-viewed')) {
+    customElements.define(
+      'recently-viewed',
+      class RecentlyViewedProducts extends HTMLElement {
+        constructor() {
+          super();
+          this.productId = this.dataset.productId;
+          this.productHandle = this.dataset.productHandle;
+          this.recentlyViewedContainer = this.querySelector('#productGrid');
+          this.numberOfProducts = parseInt(this.dataset.showProducts);
 
+          document.addEventListener('DOMContentLoaded', () => {
+            this.renderProduct();
+            this.getListProduct() && this.getviewedProducts(this.getListProduct());
+          });
+        }
+
+        getListProduct() {
+          let data = localStorage.getItem('recently-viewed-storage');
+          data = JSON.parse(data);
+          return data;
+        }
+
+        setListProduct(product) {
+          let data = localStorage.getItem('recently-viewed-storage');
+          if (data !== null && data !== '{}' && data !== '[null]') {
+            data = JSON.parse(data);
+          } else {
+            data = [];
+          }
+
+          const productWithId = {
+            [this.productId]: product
+          };
+
+          const duplicateItem = data.find(item => Object.keys(item)[0] === Object.keys(productWithId)[0]);
+          if(duplicateItem) data = data.filter(item => item !== duplicateItem);
+
+          data.unshift(productWithId);
+          if (data.length >= this.numberOfProducts) data = data.slice(0, this.numberOfProducts);
+          localStorage.setItem('recently-viewed-storage', JSON.stringify(data));
+        }
+
+        async renderProduct() {
+          const product = `/products/${this.productHandle}`;
+          const headers = {
+            'Content-Type': 'application/json',
+            Accept: `application/json`
+          };
+
+          // const adminApi = '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';
+          // const headers = {
+          //   'X-Shopify-Access-Token': adminApi,
+          //   'Content-Type': 'application/json',
+          //   Accept: `application/json`
+          // };
+
+          // Fetch product data using productId
+          fetch(product, {headers})
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Network response was not ok');
+              }
+              return response.json();
+            })
+            .then(productData => {
+              this.setListProduct(productData);
+            })
+            .catch(error => {
+              console.error('There was a problem fetching the product:', error);
+            });
+        }
+
+        fetchProductCardHTML(handle) {
+          const productTileTemplateUrl = `/products/${handle}`;
+          return fetch(productTileTemplateUrl)
+          .then((res) => res.text())
+          .then((res) => {
+            const text = res;
+            const parser = new DOMParser();
+            const htmlDocument = parser.parseFromString(text, 'text/html');
+            const productCard = htmlDocument.documentElement.querySelector('recently-viewed-card .product-card-wrapper');
+            return productCard;
+          })
+          .catch((err) => console.error(`[Shopify Recently Viewed] Failed to load content for handle: ${handle}`, err));
+        }
+
+        async getviewedProducts(data) {
+          try {
+            const handles = [];
+            data.forEach((item) => {
+              const product = item[Object.keys(item)[0]];
+              if(product && product.product && product.product.handle) handles.push(product.product.handle);
+            });
+
+            const productCardPromises = handles.map(handle => this.fetchProductCardHTML(handle));
+
+            const productCards = await Promise.all(productCardPromises);
+            productCards.forEach((productCard, index) => {
+              if (productCard) {
+                const productGrid = document.createElement('div');
+                if(this.dataset.animation === 'false') {
+                  productGrid.classList.add('grid__item');
+                } else {
+                  productGrid.classList.add('grid__item', 'scroll-trigger', 'animate--slide-in');
+                  productGrid.setAttribute('data-cascade', '');
+                  productGrid.style.setProperty('--animation-order', `${index}`);
+                }
+                productGrid.appendChild(productCard);
+                this.recentlyViewedContainer.appendChild(productGrid);
+              }
+            });
+          } catch (err) {
+            console.error('[Shopify recently viewed] Error fetching product cards:', err);
+          } finally {
+            this.setAttribute('aria-expanded', 'true');
+          }
+        }
+      }
+    );
+  }
+</script>
 {% schema %}
 {
   "name": "Recently Viewed",
   "tag": "section",
   "class": "section",
-  "disabled_on": {
-    "groups": ["header", "footer"]
+  "enabled_on": {
+    "groups": ["aside"],
+    "templates": ["product"]
   },
   "settings": [
     {
