@@ -1482,19 +1482,9 @@
         "label": "Enable Cart Header Checkout Button"
       },
       {
-        "type": "checkbox",
-        "id": "enable_add_on",
-        "default": false,
-        "label": "Enable cart Add-On"
-      },
-      {
-        "type": "header",
-        "content": "Cart Drawer Add-On"
-      },
-      {
         "type": "product",
         "id": "product",
-        "label": "Product"
+        "label": "Add-On"
       },
       {
         "type": "text",

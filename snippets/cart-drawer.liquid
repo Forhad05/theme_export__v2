@@ -196,7 +196,7 @@
     endif
   endfor
 %}
-{% if settings.enable_add_on and addon_product != blank and match_product_type and duplicate_product == false %}
+{% if addon_product != blank and match_product_type and duplicate_product == false %}
   {{ 'quick-add.css' | asset_url | stylesheet_tag }}
   {{ 'component-swatch.css' | asset_url | stylesheet_tag }}
   {{ 'component-cart-add-on.css' | asset_url | stylesheet_tag }}
@@ -786,7 +786,7 @@
           </div>
           <div id="CartDrawer-CartErrors" role="alert"></div>
         </form>
-        {% if settings.enable_add_on and addon_product != blank and match_product_type and duplicate_product == false %}
+        {% if addon_product != blank and match_product_type and duplicate_product == false %}
           <cart-add-on
             class="cart__addOn"
             data-product-id="{{ addon_product.id }}"
