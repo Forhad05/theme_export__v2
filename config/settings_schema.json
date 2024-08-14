@@ -1482,6 +1482,11 @@
         "label": "Enable Cart Header Checkout Button"
       },
       {
+        "type": "product",
+        "id": "product",
+        "label": "Add-On"
+      },
+      {
         "type": "header",
         "content": "t:settings_schema.cart.settings.cart_drawer.header"
       },
