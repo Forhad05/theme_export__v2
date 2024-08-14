@@ -198,12 +198,7 @@
 %}
 {% if addon_product != blank and match_product_type and duplicate_product == false %}
   {{ 'quick-add.css' | asset_url | stylesheet_tag }}
-  {{ 'component-swatch.css' | asset_url | stylesheet_tag }}
-  {{ 'component-cart-add-on.css' | asset_url | stylesheet_tag }}
   <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
-  {% unless addon_product.has_only_default_variant %}
-    <script src="{{ 'cart-add-on.js' | asset_url }}" defer="defer"></script>
-  {% endunless %}
 {% endif %}
 <cart-drawer class="drawer{% if cart == empty %} is-empty{% endif %}">
   <div id="CartDrawer" class="cart-drawer">
