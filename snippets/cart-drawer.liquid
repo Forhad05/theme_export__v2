@@ -66,7 +66,7 @@
   .cart-drawer__empty-content-wrapper .cart__heading--icon {
     display:none;
   }
-  
+
   /* Cart toggle slider */
   .cart__toggle--wrapper .switch {
       position: relative;
@@ -74,14 +74,14 @@
       width: 48px;
       height: 24px;
   }
-  
+
   /* Hide default HTML checkbox */
   .cart__toggle--wrapper .switch input {
     opacity: 0;
     width: 0;
     height: 0;
   }
-  
+
   /* The slider */
   .cart__toggle--wrapper .slider {
     position: absolute;
@@ -94,7 +94,7 @@
     -webkit-transition: .4s;
     transition: .4s;
   }
-  
+
   .cart__toggle--wrapper .slider:before {
       position: absolute;
       content: "";
@@ -106,21 +106,21 @@
       -webkit-transition: .4s;
       transition: .4s;
   }
-  
+
   .cart__toggle--wrapper input:checked + .slider {
     background-color: #3ED94E;
   }
-  
+
   .cart__toggle--wrapper input:focus + .slider {
     box-shadow: 0 0 1px #3ED94E;
   }
-  
+
   .cart__toggle--wrapper input:checked + .slider:before {
     -webkit-transform: translateX(26px);
     -ms-transform: translateX(26px);
     transform: translateX(26px);
   }
-  
+
   /* Rounded sliders */
   .cart__toggle--wrapper .slider.round {
     border-radius: 34px;
@@ -136,7 +136,7 @@
     margin: 1.4rem 0;
     align-items: center;
   }
-  /* Cart toggle slider ends */  
+  /* Cart toggle slider ends */
   @media screen and (max-width: 749px) {
     .cart-drawer .cart-item cart-remove-button {
         margin-left: 1rem !important;
@@ -150,94 +150,23 @@
   .cart-drawer .cart-items thead {
     background: white;
   }
-  /* Cart Add-On swatch */
-  .cart__addOn .swatch {
-    --swatch--size: 1.4rem;
-    --swatch--border-radius: 50%;
-    display: block;
-    width: var(--swatch--size);
-    max-width: 100%;
-    aspect-ratio: 1 / 1;
-    background: var(--swatch--background);
-    background-position: initial;
-    background-size: cover;
-    background-origin: border-box;
-    border: 0.1rem solid rgba(var(--color-foreground), 0.15);
-    border-radius: var(--swatch--border-radius);
-  }
-
-  .cart__addOn .swatch--square {
-    --swatch--border-radius: var(--swatch-input--border-radius, 0.2rem);
-  }
-
-  .cart__addOn .swatch--unavailable {
-    border-style: dashed;
-    border-color: rgba(var(--color-foreground), 0.5);
-  }
   /* Cart Add-On */
-  .cart__addOn {
-    --cart-add-on-gap: 1rem;
-  }
-
   .cart__addOn .cart__addOn-header {
     margin-bottom: 1.5rem;
     font-weight: var(--font-body-weight-600, 600);
   }
 
-  .cart__addOn .cart__addOn-inner,
-  .cart__addOn .cart__addOn--info,
-  .cart__addOn .cart__addOn-option-variants {
-    display: grid;
-    grid-gap: var(--cart-add-on-gap);
+  .cart__addOn .cart-item > td + td.cart-item__meta {
+    padding-left: 0;
   }
 
-  .cart__addOn .cart__addOn-inner {
-    grid-template-columns: minmax(auto, 10rem) 1fr;
-  }
-
-  .cart__addOn .cart__addOn--info {
-    grid-template-columns: 1fr minmax(auto,10rem);
-    align-items: end;
-  }
-
-  .cart__addOn .cart__addOn--contents > *:first-child {
-    margin-top: 0;
-  }
-
-  .cart__addOn .cart__addOn--contents > * {
+  .cart__addOn .quick-add {
     margin-bottom: 0;
   }
 
-  .cart__addOn .cart__addOn--heading {
-    font-weight: var(--font-body-weight-600, 600);
-  }
-
-  .cart__addOn .cart__addOn-option-variants {
-    grid-gap: 1rem;
-    grid-template-columns: repeat(auto-fill, minmax(1.4rem,auto));
-  }
-
-  .cart__addOn-swatch .cart__addOn-swatch-active .swatch {
-    position: relative;
-  }
-
-  .cart__addOn-swatch .cart__addOn-swatch-active .swatch::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0.2rem;
-    height: 0.2rem;
-    background-color: rgb(var(--color-background));
-    transform: translate(-50%, -50%);
-    -webkit-transform: translate(-50%, -50%);
-    -moz-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    -o-transform: translate(-50%, -50%);
-  }
-
   .cart__addOn .quick-add__submit {
-    font-size: 1.2rem;
+    font-size: 1rem;
+    white-space: nowrap;
     letter-spacing: normal;
     text-transform: uppercase;
     min-height: calc(2.5rem + var(--buttons-border-width) * 2);
@@ -249,14 +178,8 @@
     display: none;
   }
 
-  .cart__addOn .quick-add {
-    margin-bottom: 0;
-  }
-
-  @media screen and (min-width: 750px) {
-    .cart__addOn {
-      --cart-add-on-gap: 1.5rem;
-    }
+  .cart-drawer .cart__addOn .cart-item .loading__spinner {
+    padding-top: 0;
   }
 </style>
 {% liquid
@@ -264,12 +187,12 @@
   assign duplicate_product = false
   assign match_product_type = false
   for item in cart.items
-    if settings.product_type contains item.variant.product.type 
+    if settings.product_type contains item.variant.product.type
       if item.variant.product == addon_product
         assign duplicate_product = true
       endif
       assign match_product_type = true
-      break 
+      break
     endif
   endfor
 %}
@@ -423,16 +346,16 @@
               justify-content: space-between;
               align-items: center;
           }
-          
+
           .free__shipping-bar-total--price {
               padding-left: 25px;
           }
-          
+
           .free__shipping-bar--wrapper p {
               font-size: 1.5rem;
               margin-bottom: 0.6rem;
           }
-          
+
           .free__shipping-bar--wrapper {
               margin-bottom: 1.4rem;
           }
@@ -445,7 +368,7 @@
               border-radius: 25px;
               overflow: hidden;
           }
-          
+
           .free__shipping-bar .progress-bar::before {
               position: absolute;
               width: {{ total_price | divided_by: 1000.0 }}%;
@@ -486,7 +409,7 @@
           </div>
         </div>
       {% endif %}
-      
+
       <cart-drawer-items
         {% if cart == empty %}
           class=" is-empty"
@@ -864,130 +787,100 @@
           <div id="CartDrawer-CartErrors" role="alert"></div>
         </form>
         {% if settings.enable_add_on and addon_product != blank and match_product_type and duplicate_product == false %}
-          <cart-add-on 
+          <cart-add-on
             class="cart__addOn"
             data-product-id="{{ addon_product.id }}"
           >
             <div class="cart__addOn-header h3">Add On</div>
-            <div class="cart__addOn-inner">
-              <div class="cart__addOn--img">
-                <img src="{{ addon_product.featured_image | image_url: width: addon_product.featured_image.width }}" alt="{{ addon_product.featured_image.alt }}">
-              </div>
-              <div class="cart__addOn--info">
-                <div class="cart__addOn--contents">
-                  <h2 class="cart__addOn--heading h4">
-                    <span class="cart__addOn--title">{{ addon_product.title }} | </span>
-                    <span id="cartAddOnPrice-{{ addon_product.id }}" class="cart__addOn-price">{{ addon_product.price | money }}</span>
-                  </h2>
-                  {% unless addon_product.has_only_default_variant %}
-                    {% for option in addon_product.options_with_values %}
-                      {% if option.name contains 'Color' or option.name contains 'color' %}
-                        <div class="cart__addOn--option">
-                          <div class="cart__addOn-option-label">
-                            <span>{{ option.name | capitalize }}:</span>
-                            <span id="cartAddOnSelectedVariant-{{ addon_product.id }}" class="cart__addOn-selected-variant">{{ option.values | first }}</span>
-                          </div>
-                          <div class="cart__addOn-option-variants">
-                            {% for value in option.values %}
-                              <div 
-                                title="{{ value }}"
-                                id="cartAddOnSwatch-{{ value.variant.id }}" 
-                                class="cart__addOn-swatch js-cart__addOn-swatch{% if option.selected_value == value %} cart__addOn-swatch-active{% endif %}"
-                              >
-                                {%- liquid
-                                  assign swatch = value.swatch
-                                  assign swatch_value = null
-                                  if swatch.image
-                                    assign image_url = swatch.image | image_url: width: 50
-                                    assign swatch_value = 'url(' | append: image_url | append: ')'
-                                    assign swatch_focal_point = swatch.image.presentation.focal_point
-                                  elsif swatch.color
-                                    assign swatch_value = 'rgb(' | append: swatch.color.rgb | append: ')'
-                                  endif
-                                -%}
-                                
-                                <span
-                                  {% if swatch_value %}
-                                    class="swatch"
-                                    style="--swatch--background: {{ swatch_value }};{% if swatch_focal_point %} --swatch-focal-point: {{ swatch_focal_point }};{% endif %}"
-                                  {% else %}
-                                    class="swatch swatch--unavailable"
-                                    style="--swatch--background: {{ value | downcase }};"
-                                  {% endif %}
-                                ></span>
-                              </div>
-                            {% endfor %}
-                          </div>
-                        </div>
-                      {% endif %}
-                    {% endfor %}
-                  {% endunless %}
-                </div>
-                <div class="cart__addOn--meta">
-                  <div class="quick-add no-js-hidden">
-                    {%- liquid
-                      assign product_form_id = 'quick-add-' | append: section_id | append: addon_product.id
-                      assign qty_rules = false
-                      if addon_product.selected_or_first_available_variant.quantity_rule.min > 1 or addon_product.selected_or_first_available_variant.quantity_rule.max != null or addon_product.selected_or_first_available_variant.quantity_rule.increment > 1
-                        assign qty_rules = true
-                      endif
-                    -%}
-                    <product-form data-section-id="{{ section.id }}">
-                      {%- form 'product',
-                        addon_product,
-                        id: product_form_id,
-                        class: 'form',
-                        novalidate: 'novalidate',
-                        data-type: 'add-to-cart-form'
+            <table class="cart__addOn-table cart-items">
+              <tbody role="rowgroup cart__addOn-tbody">
+                <tr class="cart-item" role="row">
+                  <td class="cart-item__media" role="cell" headers="CartDrawer-ColumnProductImage">
+                    {% if addon_product.featured_image %}
+                      {% comment %} Leave empty space due to a:empty CSS display: none rule {% endcomment %}
+                      <a href="{{ addon_product.url }}" class="cart-item__link" tabindex="-1" aria-hidden="true"> </a>
+                      <img
+                        class="cart-item__image"
+                        src="{{ addon_product.featured_image | image_url: width: 300 }}"
+                        alt="{{ addon_product.featured_image.alt | escape }}"
+                        loading="lazy"
+                        width="150"
+                        height="{{ 150 | divided_by: addon_product.featured_image.aspect_ratio | ceil }}"
+                      >
+                    {% endif %}
+                  </td>
+                  <td class="cart-item__details" role="cell" headers="CartDrawer-ColumnProduct">
+                    <a href="{{ addon_product.url }}" class="cart-item__name h4 break">
+                      {{- addon_product.title | escape | append: ' | ' -}}
+                      <span id="cartAddOnPrice-{{ addon_product.id }}" class="cart__addOn-price">{{ addon_product.price | money }}</span>
+                    </a>
+                  </td>
+                  <td class="cart-item__meta right" role="cell" headers="CartDrawer-ColumnMeta">
+                    <div class="quick-add no-js-hidden">
+                      {%- liquid
+                        assign product_form_id = 'quick-add-' | append: section_id | append: addon_product.id
+                        assign qty_rules = false
+                        if addon_product.selected_or_first_available_variant.quantity_rule.min > 1 or addon_product.selected_or_first_available_variant.quantity_rule.max != null or addon_product.selected_or_first_available_variant.quantity_rule.increment > 1
+                          assign qty_rules = true
+                        endif
                       -%}
-                        <input
-                          type="hidden"
-                          name="id"
-                          value="{{ addon_product.selected_or_first_available_variant.id }}"
-                          class="product-variant-id"
-                          {% if addon_product.selected_or_first_available_variant.available == false %}
-                            disabled
-                          {% endif %}
-                        >
-                        <button
-                          id="{{ product_form_id }}-submit"
-                          type="submit"
-                          name="add"
-                          class="quick-add__submit button button--full-width button--secondary{% if horizontal_quick_add %} card--horizontal__quick-add{% endif %}"
-                          aria-haspopup="dialog"
-                          aria-labelledby="{{ product_form_id }}-submit title-{{ section_id }}-{{ addon_product.id }}"
-                          aria-live="polite"
-                          data-sold-out-message="true"
-                          {% if addon_product.selected_or_first_available_variant.available == false %}
-                            disabled
-                          {% endif %}
-                        >
-                          <span>
-                            {%- if addon_product.selected_or_first_available_variant.available -%}
-                              {{ 'products.product.add_to_cart' | t }}
-                            {%- else -%}
+                      <product-form data-section-id="{{ section.id }}">
+                        {%- form 'product',
+                          addon_product,
+                          id: product_form_id,
+                          class: 'form',
+                          novalidate: 'novalidate',
+                          data-type: 'add-to-cart-form'
+                        -%}
+                          <input
+                            type="hidden"
+                            name="id"
+                            value="{{ addon_product.selected_or_first_available_variant.id }}"
+                            class="product-variant-id"
+                            {% if addon_product.selected_or_first_available_variant.available == false %}
+                              disabled
+                            {% endif %}
+                          >
+                          <button
+                            id="{{ product_form_id }}-submit"
+                            type="submit"
+                            name="add"
+                            class="quick-add__submit button button--full-width button--secondary{% if horizontal_quick_add %} card--horizontal__quick-add{% endif %}"
+                            aria-haspopup="dialog"
+                            aria-labelledby="{{ product_form_id }}-submit title-{{ section_id }}-{{ addon_product.id }}"
+                            aria-live="polite"
+                            data-sold-out-message="true"
+                            {% if addon_product.selected_or_first_available_variant.available == false %}
+                              disabled
+                            {% endif %}
+                          >
+                            <span>
+                              {%- if addon_product.selected_or_first_available_variant.available -%}
+                                {{ 'products.product.add_to_cart' | t }}
+                              {%- else -%}
+                                {{ 'products.product.sold_out' | t }}
+                              {%- endif -%}
+                            </span>
+                            <span class="sold-out-message hidden">
                               {{ 'products.product.sold_out' | t }}
+                            </span>
+                            {%- if horizontal_quick_add -%}
+                              <span class="icon-wrap">{% render 'icon-plus' %}</span>
                             {%- endif -%}
-                          </span>
-                          <span class="sold-out-message hidden">
-                            {{ 'products.product.sold_out' | t }}
-                          </span>
-                          {%- if horizontal_quick_add -%}
-                            <span class="icon-wrap">{% render 'icon-plus' %}</span>
-                          {%- endif -%}
-                          {%- render 'loading-spinner' -%}
-                        </button>
-                      {%- endform -%}
-                    </product-form>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </cart-add-on>    
-        {% endif %}               
+                            {%- render 'loading-spinner' -%}
+                          </button>
+                        {%- endform -%}
+                      </product-form>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </cart-add-on>
+        {% endif %}
       </cart-drawer-items>
-                                  
-  
+
+
       <div class="drawer__footer">
         {%- if settings.show_cart_note -%}
           <details id="Details-CartDrawer">
@@ -1045,7 +938,7 @@
           </small>
         </div>
 
-        
+
         <!-- CTAs -->
         <div class="cart__ctas" {{ block.shopify_attributes }}>
           <noscript>
@@ -1209,4 +1102,4 @@ if (navigator.geolocation) {
 
 {% endcomment %}
 
-                                  
+
