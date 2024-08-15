@@ -83,6 +83,29 @@
       padding-top: 0.5rem;
     }
   }
+  /* mobile search bar */
+  @media screen and (max-width: 989px) {
+    .search-bar--mobile {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 100%;
+      width: 100%;
+      transform-origin: top left;
+      transition: all var(--duration-long) ease;
+      transform: translateX(-10rem) scale(0, 1);
+      z-index: 1;
+    }
+    .scrolled-past-header .search-bar--mobile {
+      transform: translateX(0) scale(1);
+    }
+    .scrolled-past-header .header__search {
+      display: none;
+    }
+    .search-bar--mobile predictive-search[open] .predictive-search {
+      max-height: calc(100vh - (var(--header-height) + 4.5rem + var(--inputs-border-width) * 2)) !important;
+    }
+  }
 </style>
 
 {% if shop.locale contains 'fr' %}
@@ -354,12 +377,97 @@
     </div>
     {% endif %}
   </header>
+  <div class="search-bar--mobile large-up-hide">
+    {%- if settings.predictive_search_enabled -%}
+      <predictive-search class="search-modal__form" data-loading-text="{{ 'accessibility.loading' | t }}">
+    {%- else -%}
+      <search-form class="search-modal__form">
+    {%- endif -%}
+      <form action="{{ routes.search_url }}" method="get" role="search" class="search search-modal__form">
+        <div class="field">
+          <input
+            class="search__input field__input"
+            id="Search-Bar-Modal"
+            type="search"
+            name="q"
+            value="{{ search.terms | escape }}"
+            placeholder="{{ placeholder_text }}"
+            {%- if settings.predictive_search_enabled -%}
+              role="combobox"
+              aria-expanded="false"
+              aria-owns="predictive-search-results"
+              aria-controls="predictive-search-results"
+              aria-haspopup="listbox"
+              aria-autocomplete="list"
+              autocorrect="off"
+              autocomplete="off"
+              autocapitalize="off"
+              spellcheck="false"
+            {%- endif -%}
+          >
+          <label class="field__label" for="Search-Bar-Modal">{{ 'general.search.search' | t }}</label>
+          <input type="hidden" name="options[prefix]" value="last">
+          <button
+            type="reset"
+            class="reset__button field__button{% if search.terms == blank %} hidden{% endif %}"
+            aria-label="{{ 'general.search.reset' | t }}"
+          >
+            <svg class="icon icon-close" aria-hidden="true" focusable="false">
+              <use xlink:href="#icon-reset">
+            </svg>
+          </button>
+          <button class="search__button field__button" aria-label="{{ 'general.search.search' | t }}">
+            <svg class="icon icon-search" aria-hidden="true" focusable="false">
+              <use href="#icon-search">
+            </svg>
+          </button>
+        </div>
+    
+        {%- if settings.predictive_search_enabled -%}
+          <div class="predictive-search predictive-search--header" tabindex="-1" data-predictive-search>
+            {%- render 'loading-spinner', class: 'predictive-search__loading-state' -%}
+          </div>
+    
+          <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
+        {%- endif -%}
+      </form>
+    {%- if settings.predictive_search_enabled -%}
+      </predictive-search>
+    {%- else -%}
+      </search-form>
+    {%- endif -%}
+  </div>
 </{% if section.settings.sticky_header_type != 'none' %}sticky-header{% else %}div{% endif %}>
 
 {%- if settings.cart_type == "notification" -%}
   {%- render 'cart-notification', color_scheme: section.settings.color_scheme, desktop_menu_type: section.settings.menu_type_desktop -%}
 {%- endif -%}
 
+<script>
+  var mobileMedia = window.matchMedia("(max-width: 989px)");
+  mobileMedia.addEventListener('change', () => {
+    matchMobileMedia();
+  });
+  function matchMobileMedia() {
+    if(mobileMedia.matches) {
+      var searchInputMobile = document.querySelector('predictive-search input[id="Search-Bar-Modal"]');
+      var searchInputClearButton = document.querySelector('.search-bar--mobile button[type="reset"]');
+      searchInputMobile.addEventListener('input', () => {
+        if(searchInputMobile.value != '') {
+          document.querySelector('body').classList.add('overflow-hidden');
+        } else {
+          if(document.querySelector('body').classList.contains('overflow-hidden'))
+            document.querySelector('body').classList.remove('overflow-hidden');
+        }
+      });
+      searchInputClearButton.addEventListener('click', () => {
+        if(document.querySelector('body').classList.contains('overflow-hidden'))
+          document.querySelector('body').classList.remove('overflow-hidden');
+      });
+    }
+  }
+  matchMobileMedia();
+</script>
 {% javascript %}
   class StickyHeader extends HTMLElement {
     constructor() {
