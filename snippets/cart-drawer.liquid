@@ -169,10 +169,12 @@
 </style>
 {% liquid
   assign addon_product = settings.product
+  assign addon_product_type = settings.product_type | downcase
   assign duplicate_product = false
   assign match_product_type = false
   for item in cart.items
-    if settings.product_type contains item.variant.product.type
+    assign line_item_type = item.variant.product.type | downcase
+    if addon_product_type contains line_item_type
       if item.variant.product == addon_product
         assign duplicate_product = true
       endif
