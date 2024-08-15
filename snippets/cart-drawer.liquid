@@ -174,10 +174,11 @@
   assign match_product_type = false
   for item in cart.items
     assign line_item_type = item.variant.product.type | downcase
+    if item.variant.product == addon_product
+      assign duplicate_product = true
+      break
+    endif
     if addon_product_type contains line_item_type
-      if item.variant.product == addon_product
-        assign duplicate_product = true
-      endif
       assign match_product_type = true
       break
     endif
