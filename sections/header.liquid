@@ -91,13 +91,13 @@
       right: 0;
       top: 100%;
       width: 100%;
-      transform-origin: top left;
+      transform-origin: top;
       transition: all var(--duration-long) ease;
-      transform: translateX(-10rem) scale(0, 1);
-      z-index: 1;
+      transform: translateY(-100%);
+      z-index: -1;
     }
     .scrolled-past-header .search-bar--mobile {
-      transform: translateX(0) scale(1);
+      transform: translateY(0.1rem);
     }
     .scrolled-past-header .header__search {
       display: none;
@@ -110,7 +110,7 @@
 
 {% if shop.locale contains 'fr' %}
   <style>
-    ul.list-menu.list-menu--inline li:last-child {display:none;} 
+    ul.list-menu.list-menu--inline li:last-child {display:none;}
   </style>
 {% endif %}
 
@@ -422,12 +422,12 @@
             </svg>
           </button>
         </div>
-    
+
         {%- if settings.predictive_search_enabled -%}
           <div class="predictive-search predictive-search--header" tabindex="-1" data-predictive-search>
             {%- render 'loading-spinner', class: 'predictive-search__loading-state' -%}
           </div>
-    
+
           <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
         {%- endif -%}
       </form>
