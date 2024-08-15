@@ -120,6 +120,8 @@
     "show_vendor": false,
     "show_cart_note": true,
     "enable_cart_header_checkout_button": true,
+    "product": "the-complete-snowboard",
+    "product_type": "Snow board",
     "drawer_cart_toggle": "",
     "shippingbar": false,
     "free_shipping_threshold_amount": 500,
@@ -132,6 +134,21 @@
     "checkout_button_color": "#313034",
     "breadcrumb_delimeter": "slash",
     "breadcrumb_text_color": "#313034",
+    "sections": {
+      "main-password-header": {
+        "type": "main-password-header",
+        "settings": {
+          "color_scheme": "background-1"
+        }
+      },
+      "main-password-footer": {
+        "type": "main-password-footer",
+        "settings": {
+          "color_scheme": "background-1"
+        }
+      }
+    },
+    "content_for_index": [],
     "color_schemes": {
       "background-1": {
         "settings": {
@@ -188,22 +205,7 @@
           "shadow": "#121212"
         }
       }
-    },
-    "sections": {
-      "main-password-header": {
-        "type": "main-password-header",
-        "settings": {
-          "color_scheme": "background-1"
-        }
-      },
-      "main-password-footer": {
-        "type": "main-password-footer",
-        "settings": {
-          "color_scheme": "background-1"
-        }
-      }
-    },
-    "content_for_index": []
+    }
   },
   "presets": {
     "Default": {
